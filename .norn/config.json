@@ -1,0 +1,12 @@
+{
+  "project": "ascii-scribe",
+  "max_attempts": 3,
+  "verify_timeout_sec": 600,
+  "team_repo": "",
+  "context_budget_tokens": 700,
+  "commands": {
+    "build": "npm run build --silent",
+    "test": "npm test --silent",
+    "lint": ""
+  }
+}

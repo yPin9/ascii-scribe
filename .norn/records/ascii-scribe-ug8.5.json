@@ -1,0 +1,17 @@
+{
+  "bead_id": "ascii-scribe-ug8.5",
+  "gate_id": "ascii-scribe-1xk",
+  "type": "dev",
+  "verify": [],
+  "evidence": "",
+  "important": false,
+  "started": null,
+  "review": null,
+  "checkpoints": {},
+  "checks": [],
+  "resolution": null,
+  "waivers": [],
+  "audit": [],
+  "created": "2026-11-08T02:31:39+08:00",
+  "updated": "2026-11-08T02:31:39+08:00"
+}

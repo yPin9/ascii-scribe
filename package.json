@@ -1,0 +1,22 @@
+{
+  "name": "ascii-scribe",
+  "version": "0.0.0",
+  "description": "Web Component that writes figlet ASCII text stroke by stroke, then erases and retypes.",
+  "type": "module",
+  "license": "MIT",
+  "main": "dist/ascii-scribe.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "node --test --test-reporter=dot \"test/**/*.test.js\"",
+    "build": "node scripts/build.js",
+    "dev": "npx --yes serve ."
+  },
+  "dependencies": {
+    "figlet": "^1.12.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
