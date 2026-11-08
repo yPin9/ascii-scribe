@@ -15,7 +15,7 @@ try {
       js:
         '/*! ascii-scribe | MIT (c) 2026 ascii-scribe contributors | bundles figlet.js (MIT, (c) Patrick Gillespie) and FIGlet fonts ' +
         '(BSD-3-Clause, (c) Glenn Chappell, Ian Chai, John Cowan, Christiaan Keet, Claudio Matsuoka and others) | ' +
-        'full texts: https://cdn.jsdelivr.net/gh/yPin9/ascii-scribe/THIRD_PARTY_LICENSES.md */',
+        'full texts: https://cdn.jsdelivr.net/gh/yPin9/ascii-scribe@v1.0.0/THIRD_PARTY_LICENSES.md */',
     },
     outfile: out,
     logLevel: 'error',

@@ -1,6 +1,6 @@
 {
   "name": "ascii-scribe",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Web Component that writes figlet ASCII text stroke by stroke, then erases and retypes.",
   "type": "module",
   "license": "MIT",

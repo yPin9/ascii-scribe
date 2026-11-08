@@ -126,9 +126,9 @@ test('frames follow the engine stroke order while writing; erasing walks back th
 // conditioned on other internal state is ruled out by reading the code.)
 const LONG = 'Ab3 {x}/|_~';
 const WRITE_FRAME_RATIO = 0.5;
-const DEFAULT_SPEED = 32; // README / element.js default (base pace; easing and lifts only add frames)
+const DEFAULT_SPEED = 70; // README / element.js default (base pace; easing and lifts only add frames)
 const CONFIGS = [
-  { name: 'defaults, no font attribute (loop, pause 1500, speed 32, ease, tip)', attrs: {}, noFont: true, rounds: 2, n: 1, maxLen: 6 },
+  { name: 'defaults, no font attribute (loop, pause 1500, speed 70, ease, tip)', attrs: {}, noFont: true, rounds: 2, n: 1, maxLen: 6 },
   { name: 'defaults with each font', attrs: {}, rounds: 2, n: 1, maxLen: 3 },
   { name: 'plain-text strings (one sentence, not JSON), no font', attrs: {}, noFont: true, plain: true, rounds: 2 },
   { name: 'single sentence, every font', attrs: { speed: '200', pause: '200', lift: '20', ease: 'false' }, rounds: 2, n: 1, maxLen: 8 },

@@ -3,9 +3,9 @@
 // Attributes
 //   strings  JSON array of sentences (or one plain sentence)
 //   font     one of FONTS (default Standard)
-//   speed    base pace in cells per second (default 32; erasing runs 3× faster)
+//   speed    base pace in cells per second (default 70; erasing runs 3× faster)
 //   pause    ms the finished sentence stays on screen (default 1500)
-//   lift     ms the pen pauses when it lifts between strokes (default 320)
+//   lift     ms the pen pauses when it lifts between strokes (default 120)
 //   ease     slow at the start and end of each stroke, fast in the middle (default); ease="false" = even pace
 //   tip      freshly written cells glow and fade, like wet ink (default); tip="false" = no glow
 //   loop     cycle forever (default); loop="false" stops after the last sentence is written
@@ -18,7 +18,7 @@ import { plan, timeline, countUpTo, Grid, parseStrings } from './scribe.js';
 
 registerFonts(figlet);
 
-const DEFAULTS = { speed: 32, pause: 1500, lift: 320 };
+const DEFAULTS = { speed: 70, pause: 1500, lift: 120 };
 const ERASE_SPEEDUP = 3;
 const GLOW_MS = [90, 220, 420]; // age thresholds of the three glow levels (newest first)
 const GAP_MS = 350; // blank time between erasing one sentence and writing the next

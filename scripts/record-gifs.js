@@ -47,7 +47,7 @@ const SHOTS = [
   {
     file: 'hero.gif',
     width: 720,
-    body: `<ascii-scribe speed="70" lift="120" style="font-size:20px" strings='["ascii-scribe", "S&amp;@ 42?"]'></ascii-scribe>`,
+    body: `<ascii-scribe style="font-size:20px" strings='["ascii-scribe", "S&amp;@ 42?"]'></ascii-scribe>`,
     until: (ev) => ev.includes('written:1'),
     tail: 1500,
   },
@@ -55,7 +55,7 @@ const SHOTS = [
     file: 'fonts.gif',
     width: 640,
     body: `<div>${['Standard', 'Big', 'Slant', 'Small', 'Small Slant', 'Shadow', 'Script']
-      .map((f) => `<div><div class="label">${f}</div><ascii-scribe speed="70" lift="120" style="font-size:11px" font="${f}" loop="false" strings='["ascii-scribe"]'></ascii-scribe></div>`)
+      .map((f) => `<div><div class="label">${f}</div><ascii-scribe style="font-size:11px" font="${f}" loop="false" strings='["ascii-scribe"]'></ascii-scribe></div>`)
       .join('')}</div>`,
     until: (ev) => ev.filter((e) => e === 'written:0').length >= 7,
     tail: 1500,
@@ -63,7 +63,7 @@ const SHOTS = [
   {
     file: 'symbols.gif',
     width: 760,
-    body: `<ascii-scribe speed="70" lift="120" style="font-size:18px" font="Big" loop="false" strings='["ascii-scribe"]'></ascii-scribe>`,
+    body: `<ascii-scribe style="font-size:18px" font="Big" loop="false" strings='["ascii-scribe"]'></ascii-scribe>`,
     until: (ev) => ev.includes('written:0'),
     tail: 1500,
   },
