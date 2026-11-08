@@ -7,3 +7,8 @@ node_modules/
 .beads/proxieddb/
 *.gate.lock*
 dist/
+
+# Internal work tracking (kept locally, not published)
+.norn/
+.beads/
+CLAUDE.md

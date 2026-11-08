@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ascii-scribe demo</title>
+<link rel="icon" href="data:,">
+<script type="module" src="../dist/ascii-scribe.js"></script>
+<style>
+  :root { --bg: #0f1115; --fg: #c9d1d9; --muted: #8b949e; --ink: #7ee787; --line: #30363d; --field: #161b22; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --ink: #116329; --line: #d1d9e0; --field: #f6f8fa; }
+    ascii-scribe { --ascii-scribe-tip: #1a7f37; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, sans-serif; }
+  main { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.lead { margin: 0 0 20px; color: var(--muted); }
+  .stage { border: 1px solid var(--line); border-radius: 10px; padding: 20px 16px; margin-bottom: 16px; min-height: 9em; }
+  ascii-scribe { color: var(--ink); font-size: 20px; }
+  form { display: grid; gap: 12px 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+  label.wide { grid-column: 1 / -1; }
+  input, select, textarea { font: inherit; color: var(--fg); background: var(--field); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
+  textarea { min-height: 4.5em; resize: vertical; font-family: ui-monospace, Consolas, monospace; }
+  .check { display: flex; align-items: center; gap: 8px; color: var(--fg); font-size: 14px; }
+  output { color: var(--fg); }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 13px; }
+  pre.snippet { background: var(--field); border: 1px solid var(--line); border-radius: 6px; padding: 10px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ascii-scribe</h1>
+  <p class="lead">figlet ASCII art, written stroke by stroke. The stroke order is derived from the figlet output — no per-letter data.</p>
+
+  <div class="stage">
+    <ascii-scribe id="scribe" font="Standard" strings='["ascii-scribe", "S&amp;@ 42?", "pwn"]'></ascii-scribe>
+  </div>
+
+  <form id="controls" onsubmit="return false">
+    <label class="wide">Sentences (one per line; ASCII only)
+      <textarea id="strings">ascii-scribe
+S&amp;@ 42?
+pwn</textarea>
+    </label>
+    <label>Font
+      <select id="font"></select>
+    </label>
+    <label>Speed (cells/s): <output id="speedOut">70</output>
+      <input id="speed" type="range" min="8" max="200" value="70">
+    </label>
+    <label>Pause (ms): <output id="pauseOut">1500</output>
+      <input id="pause" type="range" min="0" max="5000" step="100" value="1500">
+    </label>
+    <label>Pen lift (ms): <output id="liftOut">120</output>
+      <input id="lift" type="range" min="0" max="1000" step="20" value="120">
+    </label>
+    <label class="check"><input id="tip" type="checkbox" checked> Pen tip glow</label>
+    <label class="check"><input id="ease" type="checkbox" checked> Slow stroke ends</label>
+    <label class="check"><input id="loop" type="checkbox" checked> Loop</label>
+  </form>
+
+  <h2 style="font-size:15px;margin:24px 0 6px">Embed</h2>
+  <pre class="snippet"><code id="snippet"></code></pre>
+</main>
+
+<script type="module">
+  import { FONTS } from '../dist/ascii-scribe.js';
+  const $ = (id) => document.getElementById(id);
+  const el = $('scribe');
+  $('font').innerHTML = FONTS.map((f) => `<option${f === 'Standard' ? ' selected' : ''}>${f}</option>`).join('');
+
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/</g, '&lt;');
+  function apply() {
+    const strings = $('strings').value.split('\n').map((s) => s.replace(/[^\x20-\x7e]/g, '')).filter((s) => s.trim());
+    const attrs = {
+      font: $('font').value,
+      strings: JSON.stringify(strings),
+      speed: $('speed').value,
+      pause: $('pause').value,
+      lift: $('lift').value,
+      tip: $('tip').checked ? null : 'false',
+      ease: $('ease').checked ? null : 'false',
+      loop: $('loop').checked ? null : 'false',
+    };
+    for (const [k, v] of Object.entries(attrs)) v === null ? el.removeAttribute(k) : el.setAttribute(k, v);
+    for (const k of ['speed', 'pause', 'lift']) $(`${k}Out`).value = $(k).value;
+    const shown = Object.entries(attrs)
+      .filter(([k, v]) => v !== null && !(k === 'speed' && v === '70') && !(k === 'pause' && v === '1500') && !(k === 'lift' && v === '120'))
+      .map(([k, v]) => ` ${k}='${esc(v)}'`)
+      .join('');
+    $('snippet').textContent =
+      `<script type="module" src="https://cdn.jsdelivr.net/gh/yPin9/ascii-scribe@<version>/dist/ascii-scribe.js"><\/script>\n<ascii-scribe${shown}></ascii-scribe>`;
+  }
+  $('controls').addEventListener('input', apply);
+  $('controls').addEventListener('change', apply);
+  apply();
+</script>
+</body>
+</html>

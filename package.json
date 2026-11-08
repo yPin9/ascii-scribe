@@ -11,12 +11,17 @@
   "scripts": {
     "test": "node --test --test-reporter=dot \"test/**/*.test.js\"",
     "build": "node scripts/build.js",
-    "dev": "npx --yes serve ."
+    "dev": "npx --yes serve .",
+    "demo": "npm run build --silent && node scripts/serve.js",
+    "gifs": "npm run build --silent && node scripts/record-gifs.js"
   },
   "dependencies": {
     "figlet": "^1.12.0"
   },
   "devDependencies": {
-    "esbuild": "^0.28.2"
+    "esbuild": "^0.28.2",
+    "gifenc": "1.0.3",
+    "playwright-core": "1.64.1",
+    "pngjs": "7.0.0"
   }
 }
