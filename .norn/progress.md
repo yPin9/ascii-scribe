@@ -3,27 +3,23 @@
 > 每次工作結束前更新。寫給「下一個完全不記得前情的 agent」看。
 
 ## 目前狀態
-ug8.1（驗證基礎）已關閉（2026-11-08，5/5 檢查點通過，strokes-not-faked 經 5 次審查）。尚未 commit（等使用者同意）。下一個：ug8.2 筆順推算引擎。
+ug8.1、ug8.2 已關閉並 commit。ug8.2 審查兩項皆通過（審查員另以「基準線也拿到字母邊界」的反例驗證，引擎仍贏約 0.08）。已修正 ug8.1 遺留的不穩定測試（decisions.md）。下一個：ug8.3 Web Component。
 
-## 最近完成
-- src/fonts.js：7 種線條型字型（Standard, Big, Slant, Small, Small Slant, Shadow, Script；官方 FIGlet 發行版、BSD-3）
-- test/helpers/random.js：可設種子隨機字串（SCRIBE_SEED，否則每次不同；失敗訊息帶 seed）
-- test/helpers/metrics.js：finalFrame、strokeMetrics（adjacency / continuity / scanSimilarity，16 種掃描、筆內不分方向）、pooledContinuity、choppedScan、ADJACENCY_MIN=0.9、CONTINUITY_MIN=0.75（合計）
-- THIRD_PARTY_LICENSES.md
-- strokes-not-faked 判斷標準新增「驗證工具任務」條款（使用者決定）
+## 最近完成（ug8.2）
+- src/strokes.js：筆／線段模型。每個線條字元是格子內一條線段（SEGMENTS 幾何表，無字母/數字鍵），其他字元是 blob；筆從線段近端進、遠端出，下一格的線段起點在 REACH=0.5 內才延續同一筆；從自由端起筆；逐字母書寫。
+- src/letters.js：用前綴渲染寬度算每個字母的起始欄（figlet 會 smush，網格本身看不出邊界）。
+- test/helpers/direction.js（裁判：字元方向一致性）、test/helpers/baselines.js（不看字元的基準線，只拿遮罩）。
+- test/strokes.test.js：200 隨機字串 × 7 字型；畫面 100%、adjacency ≥0.9、合計連續度 ≥0.75、方向 ≥ 及格基準線最佳 +0.05 且高於全部基準線、掃描相似度合計 ≤0.70、每條基準線當替身都過不了。約 1 分鐘。
+- 門檻由使用者決定，見 decisions.md 2026-11-08 ug8.2。
+- 證據：.norn/evidence/ug8.2-reveal-S-amp-at.txt。
 
 ## 進行中 / 卡住的地方
-- **ug8.2 的驗收條件很多，開始前務必完整讀 `bd show ascii-scribe-ug8.2` 與 .norn/decisions.md**：
-  - 合計連續度 ≥ 0.75
-  - 字元方向一致性指標（| 上下、_ - 左右、/ \ 斜向）
-  - **通用基準線**：一組不看字元的寫法（16 種切碎掃描及反轉/打亂、帶狀、斜向、合併端點相鄰筆畫、貪婪 DFS），引擎方向一致性必須高出基準線一個邊際值——邊際值、掃描相似度上限都要看數據後**問使用者**
-  - 引擎贏不過基準線 → 停下來問使用者，不可改指標
-  - 審查要讀程式碼並印出 ≥3 個字串的揭示順序
-- 審查員第四次試算：合併捷徑方向一致性 0.42 vs DFS 0.39，分不分得開未知——這是 ug8.2 最大風險。
-- Norn 關卡是任務的 dependency，`bd ready` 只列 epic；用 `norn task start <ID>`。
-- `norn task done` 第一次在 Windows 寫 .norn/records 時遇到 PermissionError（WinError 5，可能被其他程序暫時鎖住），重試即成功。
-- no-push 守門擋 git push / gh repo create。
+- 方向裁判有已知盲點（`/\`、`_` 下接 `/`），使用者決定不改。
+- 量測暫存腳本在 %TEMP%/scribe-measure/（measure.mjs、show.mjs、diag.mjs），不在專案內。
+- `norn task done` 在 Windows 寫 .norn/records 可能 PermissionError，重試即可。
+- no-push 守門擋 git push / gh repo create；push 由使用者自己做。
 
 ## 下一步
-1. 問使用者是否 commit ug8.1 的狀態。
-2. `norn task start ascii-scribe-ug8.2`。
+1. （完成）ug8.2 審查通過並關閉。
+2. （完成）ug8.2 已 commit。
+3. ug8.3 Web Component（驗收含 DOM 字元與獨立 figlet.textSync() 比對）。

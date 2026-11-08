@@ -3,15 +3,252 @@
   "gate_id": "ascii-scribe-he9",
   "type": "dev",
   "verify": [],
-  "evidence": "",
+  "evidence": "test/strokes.test.js：200 隨機字串×7 字型，seed 2024/7/11/99/31337 全過：畫面 100%、adjacency 最低 1.0、合計連續度 0.80、方向 0.89 vs 及格基準線最佳 0.827(+0.05 門檻)與全部基準線最佳 0.857、掃描相似度合計 0.585≤0.70、基準線替身反例全不過。揭示順序：.norn/evidence/ug8.2-reveal-S-amp-at.txt（S&@ ×Standard/Big/Slant、Hi! Small）。門檻記於 decisions.md。",
   "important": false,
-  "started": null,
+  "started": "2026-11-08T15:59:59+08:00",
   "review": null,
-  "checkpoints": {},
-  "checks": [],
-  "resolution": null,
+  "checkpoints": {
+    "tests-pass": {
+      "status": "pass",
+      "fails": 1,
+      "at": "2026-11-08T17:43:03+08:00"
+    },
+    "build-ok": {
+      "status": "pass",
+      "fails": 0,
+      "at": "2026-11-08T17:43:03+08:00"
+    },
+    "strokes-not-faked": {
+      "status": "pass",
+      "fails": 0,
+      "at": "2026-11-08T17:43:03+08:00",
+      "verdict": "pass",
+      "note": "符合。(1) strokes.js 以筆/線段幾何模擬運筆：SEGMENTS 只以 | _ - = ~ / \\ ( ) [ ] < > ` ' , . 等線條字元為鍵給出格內線段端點，無字母/數字鍵、無 if(ch===...) 特例、無字型分支；判斷標準本身即把『依字元方向 | _ / \\ - ( ) 串成筆畫』列為正確路徑，故不視為寫死筆順。letters.js 以前綴渲染寬度求字母邊界，非逐字表。(2) 自行印出 'Wow, 42?'(Standard)、'Zebra/7'(Slant)、'xyzMN'(Big)、S&@(Standard/Script) 揭示順序：筆畫沿線段幾何走（如 W 一筆沿 \\ V / 繞行、N 一筆 _\\/_|||||），非逐列/逐欄掃描；S&@ Standard 與 evidence 逐格一致。(3) 隨機字串（CHARSET 33-126+空白、長度 1-12、種子可變）× 7 字型；最終畫面與 figlet.textSync 逐字比對、8 鄰域 adjacency 逐 render ≥0.9；既有 metrics.js/metrics.test.js 未改。(4) SCRIBE_SEED=31337 重跑 6/6 通過；門檻 0.05 邊際、scan≤0.70 與 decisions.md 使用者決定一致；所有已記錄反例（16 切碎及反轉/打亂、帶狀、斜向、合併、貪婪 DFS）皆在 baselines.js 中，且有『每條基準線當引擎都不得過關』測試。(5) 額外反例：把盲基準線限制在字母邊界內（給它與引擎同樣的 letterStarts 資訊），seed 99×80 字串×7 字型：引擎方向 0.890/連續 0.803，最佳 letter-aware 盲基準線 0.861（連續 0.57）、連續及格者最佳 0.807，引擎仍勝。小缺口（不構成不通過）：測試通過時不印實際數值；裁判盲點已由使用者知悉。",
+      "verdict_at": "2026-11-08T17:40:33+08:00",
+      "verdict_by": "ai-review"
+    },
+    "license-ok": {
+      "status": "pass",
+      "fails": 0,
+      "at": "2026-11-08T17:43:03+08:00",
+      "verdict": "pass",
+      "note": "符合。本任務未新增依賴或字型：package.json/package-lock.json/src/fonts.js/scripts 均無變動，新增檔僅 src/strokes.js、src/letters.js 與測試。既有 figlet@1.12.0 為 MIT；7 種字型 .flf 標頭皆為 Glenn Chappell 官方 FIGlet 發行版字型（允許修改並註記），THIRD_PARTY_LICENSES.md 保留 figlet MIT 與 FIGlet 字型聲明。",
+      "verdict_at": "2026-11-08T17:41:51+08:00",
+      "verdict_by": "ai-review"
+    }
+  },
+  "checks": [
+    {
+      "at": "2026-11-08T17:38:06+08:00",
+      "passed": false,
+      "results": [
+        {
+          "kind": "evidence",
+          "source": "type:dev",
+          "ok": true
+        }
+      ],
+      "checkpoints": [
+        {
+          "id": "tests-pass",
+          "when": "before_done",
+          "by": "command",
+          "title": "功能與筆順指標測試全過",
+          "on_fail": "fix",
+          "max_fix": 3,
+          "criteria": "",
+          "requires": [],
+          "status": "pass",
+          "output": "....................\n....\n",
+          "run": "npm test --silent",
+          "fails": 0
+        },
+        {
+          "id": "build-ok",
+          "when": "before_done",
+          "by": "command",
+          "title": "能打包成網站可載入的單檔",
+          "on_fail": "fix",
+          "max_fix": 3,
+          "criteria": "",
+          "requires": [],
+          "status": "pass",
+          "output": "build ok: dist/ascii-scribe.js (0.0 KiB)\n",
+          "run": "npm run build --silent",
+          "fails": 0
+        },
+        {
+          "id": "strokes-not-faked",
+          "when": "before_done",
+          "by": "ai-review",
+          "title": "筆順是推算的，不是捷徑",
+          "on_fail": "pause",
+          "max_fix": 3,
+          "criteria": "閱讀這次的 diff 與 `src/` 中的筆順推算程式、`test/` 中的指標測試，確認：\n\n**正確的路徑**\n- 筆順完全從 figlet 輸出的字元網格推算（例如依字元方向 `| _ / \\ - ( )` 與鄰接關係串成筆畫、再排序），對任何字串與線條型字型都用同一套演算法。\n- 指標測試的字串由程式隨機產生（字母、數字、符號混合，長度不固定），每次執行或每個種子不同；涵蓋已約定的 ≥5 種線條型字型。\n- 「最終畫面逐字相同」是和 `figlet.textSync()` 的實際輸出比對；「同一筆內相鄰比例 ≥ 90%」用 8 鄰域計算。\n\n**捷徑（出現任一項即不通過）**\n- 程式中出現以字母／字元為鍵的筆順表或特例（例如 `if (ch === 'S')`），或只對展示句子的特殊處理。\n- 揭示順序實質上就是掃描順序（上→下、左→右逐行），只是換了名字。審查者要實際印出一個字串的揭示順序來確認。\n- 降低門檻（< 90%）、減少字型、把隨機字串換成固定清單、縮小字元集、放寬比對（例如忽略空白差異或只比對長度）。\n- 修改、刪除、skip 既有測試，或吞掉例外讓測試通過。\n- 指標計算方式本身被改得對結果有利（例如把跨筆畫的跳躍排除在分母之外，卻沒有理由）。\n\n如果任務本身沒有碰到筆順程式或指標測試，確認沒有上述改動即可通過。\n\n**只建立或修改驗證工具、沒有筆順引擎的任務**（使用者 2026-11-08 決定，避免無止境的攻防）：指標不可能零漏洞，這類任務的標準是——\n- 上面的捷徑清單沒有出現；\n- 這個任務的驗收條件與 `.norn/decisions.md` 中**已列出的捷徑**，都有反例測試證明會被抓出來；\n- 審查中**新找到的漏洞**，如果使用者決定延後，已經寫進下一個引擎任務的驗收條件（作為反例測試），並記在 `.norn/decisions.md`。\n符合以上三點即可通過；新漏洞要在審查結果中列出，但只要已依使用者決定記錄，就不構成不通過的理由。\n**筆順引擎任務不適用這個例外**：引擎必須讓所有已記錄的反例（包含之前延後的）都被抓出來，並通過讀程式碼與印出揭示順序的檢查。",
+          "requires": [],
+          "status": "pending",
+          "note": "",
+          "fails": 0
+        },
+        {
+          "id": "license-ok",
+          "when": "before_done",
+          "by": "ai-review",
+          "title": "打包的套件與字型可重新散布",
+          "on_fail": "pause",
+          "max_fix": 3,
+          "criteria": "本專案為 MIT。檢查這次新增或打包進 `dist/` 的所有東西：\n- npm 依賴的授權與 MIT 相容（不可是 GPL／AGPL 或授權不明）。\n- **每個打包進去的 figlet 字型**：讀字型檔的標頭註解，確認允許重新散布；授權不明或禁止散布的字型不能打包，改選其他字型並告知使用者。\n- 第三方授權聲明有保留（例如 `THIRD_PARTY_LICENSES` 或 README）。\n沒有新增依賴或字型的任務，確認沒有變動即可通過。",
+          "requires": [],
+          "status": "pending",
+          "note": "",
+          "fails": 0
+        }
+      ]
+    },
+    {
+      "at": "2026-11-08T17:41:51+08:00",
+      "passed": false,
+      "results": [
+        {
+          "kind": "evidence",
+          "source": "type:dev",
+          "ok": true
+        }
+      ],
+      "checkpoints": [
+        {
+          "id": "tests-pass",
+          "when": "before_done",
+          "by": "command",
+          "title": "功能與筆順指標測試全過",
+          "on_fail": "fix",
+          "max_fix": 3,
+          "criteria": "",
+          "requires": [],
+          "status": "fail",
+          "output": "..........X.........\n....\n\nFailed tests:\n\n✖ chopped scans in every direction get perfect adjacency and frame, but scanSimilarity 1 exposes them (89.1308ms)\n  AssertionError [ERR_ASSERTION]: seed=2536342592 ordering=row+/fwd font=Script text=\":\"\n      at TestContext.<anonymous> (file:///D:/work/ascii-scribe/test/metrics.test.js:109:33)\n      at Test.runInAsyncScope (node:async_hooks:206:9)\n      at Test.run (node:internal/test_runner/test:856:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:565:18)\n      at Test.postRun (node:internal/test_runner/test:955:19)\n      at Test.run (node:internal/test_runner/test:898:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:565:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: 0,\n    expected: 1,\n    operator: 'strictEqual'\n  }\n",
+          "run": "npm test --silent",
+          "fails": 1
+        },
+        {
+          "id": "build-ok",
+          "when": "before_done",
+          "by": "command",
+          "title": "能打包成網站可載入的單檔",
+          "on_fail": "fix",
+          "max_fix": 3,
+          "criteria": "",
+          "requires": [],
+          "status": "pass",
+          "output": "build ok: dist/ascii-scribe.js (0.0 KiB)\n",
+          "run": "npm run build --silent",
+          "fails": 0
+        },
+        {
+          "id": "strokes-not-faked",
+          "when": "before_done",
+          "by": "ai-review",
+          "title": "筆順是推算的，不是捷徑",
+          "on_fail": "pause",
+          "max_fix": 3,
+          "criteria": "閱讀這次的 diff 與 `src/` 中的筆順推算程式、`test/` 中的指標測試，確認：\n\n**正確的路徑**\n- 筆順完全從 figlet 輸出的字元網格推算（例如依字元方向 `| _ / \\ - ( )` 與鄰接關係串成筆畫、再排序），對任何字串與線條型字型都用同一套演算法。\n- 指標測試的字串由程式隨機產生（字母、數字、符號混合，長度不固定），每次執行或每個種子不同；涵蓋已約定的 ≥5 種線條型字型。\n- 「最終畫面逐字相同」是和 `figlet.textSync()` 的實際輸出比對；「同一筆內相鄰比例 ≥ 90%」用 8 鄰域計算。\n\n**捷徑（出現任一項即不通過）**\n- 程式中出現以字母／字元為鍵的筆順表或特例（例如 `if (ch === 'S')`），或只對展示句子的特殊處理。\n- 揭示順序實質上就是掃描順序（上→下、左→右逐行），只是換了名字。審查者要實際印出一個字串的揭示順序來確認。\n- 降低門檻（< 90%）、減少字型、把隨機字串換成固定清單、縮小字元集、放寬比對（例如忽略空白差異或只比對長度）。\n- 修改、刪除、skip 既有測試，或吞掉例外讓測試通過。\n- 指標計算方式本身被改得對結果有利（例如把跨筆畫的跳躍排除在分母之外，卻沒有理由）。\n\n如果任務本身沒有碰到筆順程式或指標測試，確認沒有上述改動即可通過。\n\n**只建立或修改驗證工具、沒有筆順引擎的任務**（使用者 2026-11-08 決定，避免無止境的攻防）：指標不可能零漏洞，這類任務的標準是——\n- 上面的捷徑清單沒有出現；\n- 這個任務的驗收條件與 `.norn/decisions.md` 中**已列出的捷徑**，都有反例測試證明會被抓出來；\n- 審查中**新找到的漏洞**，如果使用者決定延後，已經寫進下一個引擎任務的驗收條件（作為反例測試），並記在 `.norn/decisions.md`。\n符合以上三點即可通過；新漏洞要在審查結果中列出，但只要已依使用者決定記錄，就不構成不通過的理由。\n**筆順引擎任務不適用這個例外**：引擎必須讓所有已記錄的反例（包含之前延後的）都被抓出來，並通過讀程式碼與印出揭示順序的檢查。",
+          "requires": [],
+          "status": "pass",
+          "note": "符合。(1) strokes.js 以筆/線段幾何模擬運筆：SEGMENTS 只以 | _ - = ~ / \\ ( ) [ ] < > ` ' , . 等線條字元為鍵給出格內線段端點，無字母/數字鍵、無 if(ch===...) 特例、無字型分支；判斷標準本身即把『依字元方向 | _ / \\ - ( ) 串成筆畫』列為正確路徑，故不視為寫死筆順。letters.js 以前綴渲染寬度求字母邊界，非逐字表。(2) 自行印出 'Wow, 42?'(Standard)、'Zebra/7'(Slant)、'xyzMN'(Big)、S&@(Standard/Script) 揭示順序：筆畫沿線段幾何走（如 W 一筆沿 \\ V / 繞行、N 一筆 _\\/_|||||），非逐列/逐欄掃描；S&@ Standard 與 evidence 逐格一致。(3) 隨機字串（CHARSET 33-126+空白、長度 1-12、種子可變）× 7 字型；最終畫面與 figlet.textSync 逐字比對、8 鄰域 adjacency 逐 render ≥0.9；既有 metrics.js/metrics.test.js 未改。(4) SCRIBE_SEED=31337 重跑 6/6 通過；門檻 0.05 邊際、scan≤0.70 與 decisions.md 使用者決定一致；所有已記錄反例（16 切碎及反轉/打亂、帶狀、斜向、合併、貪婪 DFS）皆在 baselines.js 中，且有『每條基準線當引擎都不得過關』測試。(5) 額外反例：把盲基準線限制在字母邊界內（給它與引擎同樣的 letterStarts 資訊），seed 99×80 字串×7 字型：引擎方向 0.890/連續 0.803，最佳 letter-aware 盲基準線 0.861（連續 0.57）、連續及格者最佳 0.807，引擎仍勝。小缺口（不構成不通過）：測試通過時不印實際數值；裁判盲點已由使用者知悉。",
+          "fails": 0
+        },
+        {
+          "id": "license-ok",
+          "when": "before_done",
+          "by": "ai-review",
+          "title": "打包的套件與字型可重新散布",
+          "on_fail": "pause",
+          "max_fix": 3,
+          "criteria": "本專案為 MIT。檢查這次新增或打包進 `dist/` 的所有東西：\n- npm 依賴的授權與 MIT 相容（不可是 GPL／AGPL 或授權不明）。\n- **每個打包進去的 figlet 字型**：讀字型檔的標頭註解，確認允許重新散布；授權不明或禁止散布的字型不能打包，改選其他字型並告知使用者。\n- 第三方授權聲明有保留（例如 `THIRD_PARTY_LICENSES` 或 README）。\n沒有新增依賴或字型的任務，確認沒有變動即可通過。",
+          "requires": [],
+          "status": "pending",
+          "note": "",
+          "deferred": true,
+          "fails": 0
+        }
+      ]
+    },
+    {
+      "at": "2026-11-08T17:43:03+08:00",
+      "passed": true,
+      "results": [
+        {
+          "kind": "evidence",
+          "source": "type:dev",
+          "ok": true
+        }
+      ],
+      "checkpoints": [
+        {
+          "id": "tests-pass",
+          "when": "before_done",
+          "by": "command",
+          "title": "功能與筆順指標測試全過",
+          "on_fail": "fix",
+          "max_fix": 3,
+          "criteria": "",
+          "requires": [],
+          "status": "pass",
+          "output": "....................\n....\n",
+          "run": "npm test --silent",
+          "fails": 1
+        },
+        {
+          "id": "build-ok",
+          "when": "before_done",
+          "by": "command",
+          "title": "能打包成網站可載入的單檔",
+          "on_fail": "fix",
+          "max_fix": 3,
+          "criteria": "",
+          "requires": [],
+          "status": "pass",
+          "output": "build ok: dist/ascii-scribe.js (0.0 KiB)\n",
+          "run": "npm run build --silent",
+          "fails": 0
+        },
+        {
+          "id": "strokes-not-faked",
+          "when": "before_done",
+          "by": "ai-review",
+          "title": "筆順是推算的，不是捷徑",
+          "on_fail": "pause",
+          "max_fix": 3,
+          "criteria": "閱讀這次的 diff 與 `src/` 中的筆順推算程式、`test/` 中的指標測試，確認：\n\n**正確的路徑**\n- 筆順完全從 figlet 輸出的字元網格推算（例如依字元方向 `| _ / \\ - ( )` 與鄰接關係串成筆畫、再排序），對任何字串與線條型字型都用同一套演算法。\n- 指標測試的字串由程式隨機產生（字母、數字、符號混合，長度不固定），每次執行或每個種子不同；涵蓋已約定的 ≥5 種線條型字型。\n- 「最終畫面逐字相同」是和 `figlet.textSync()` 的實際輸出比對；「同一筆內相鄰比例 ≥ 90%」用 8 鄰域計算。\n\n**捷徑（出現任一項即不通過）**\n- 程式中出現以字母／字元為鍵的筆順表或特例（例如 `if (ch === 'S')`），或只對展示句子的特殊處理。\n- 揭示順序實質上就是掃描順序（上→下、左→右逐行），只是換了名字。審查者要實際印出一個字串的揭示順序來確認。\n- 降低門檻（< 90%）、減少字型、把隨機字串換成固定清單、縮小字元集、放寬比對（例如忽略空白差異或只比對長度）。\n- 修改、刪除、skip 既有測試，或吞掉例外讓測試通過。\n- 指標計算方式本身被改得對結果有利（例如把跨筆畫的跳躍排除在分母之外，卻沒有理由）。\n\n如果任務本身沒有碰到筆順程式或指標測試，確認沒有上述改動即可通過。\n\n**只建立或修改驗證工具、沒有筆順引擎的任務**（使用者 2026-11-08 決定，避免無止境的攻防）：指標不可能零漏洞，這類任務的標準是——\n- 上面的捷徑清單沒有出現；\n- 這個任務的驗收條件與 `.norn/decisions.md` 中**已列出的捷徑**，都有反例測試證明會被抓出來；\n- 審查中**新找到的漏洞**，如果使用者決定延後，已經寫進下一個引擎任務的驗收條件（作為反例測試），並記在 `.norn/decisions.md`。\n符合以上三點即可通過；新漏洞要在審查結果中列出，但只要已依使用者決定記錄，就不構成不通過的理由。\n**筆順引擎任務不適用這個例外**：引擎必須讓所有已記錄的反例（包含之前延後的）都被抓出來，並通過讀程式碼與印出揭示順序的檢查。",
+          "requires": [],
+          "status": "pass",
+          "note": "符合。(1) strokes.js 以筆/線段幾何模擬運筆：SEGMENTS 只以 | _ - = ~ / \\ ( ) [ ] < > ` ' , . 等線條字元為鍵給出格內線段端點，無字母/數字鍵、無 if(ch===...) 特例、無字型分支；判斷標準本身即把『依字元方向 | _ / \\ - ( ) 串成筆畫』列為正確路徑，故不視為寫死筆順。letters.js 以前綴渲染寬度求字母邊界，非逐字表。(2) 自行印出 'Wow, 42?'(Standard)、'Zebra/7'(Slant)、'xyzMN'(Big)、S&@(Standard/Script) 揭示順序：筆畫沿線段幾何走（如 W 一筆沿 \\ V / 繞行、N 一筆 _\\/_|||||），非逐列/逐欄掃描；S&@ Standard 與 evidence 逐格一致。(3) 隨機字串（CHARSET 33-126+空白、長度 1-12、種子可變）× 7 字型；最終畫面與 figlet.textSync 逐字比對、8 鄰域 adjacency 逐 render ≥0.9；既有 metrics.js/metrics.test.js 未改。(4) SCRIBE_SEED=31337 重跑 6/6 通過；門檻 0.05 邊際、scan≤0.70 與 decisions.md 使用者決定一致；所有已記錄反例（16 切碎及反轉/打亂、帶狀、斜向、合併、貪婪 DFS）皆在 baselines.js 中，且有『每條基準線當引擎都不得過關』測試。(5) 額外反例：把盲基準線限制在字母邊界內（給它與引擎同樣的 letterStarts 資訊），seed 99×80 字串×7 字型：引擎方向 0.890/連續 0.803，最佳 letter-aware 盲基準線 0.861（連續 0.57）、連續及格者最佳 0.807，引擎仍勝。小缺口（不構成不通過）：測試通過時不印實際數值；裁判盲點已由使用者知悉。",
+          "fails": 0
+        },
+        {
+          "id": "license-ok",
+          "when": "before_done",
+          "by": "ai-review",
+          "title": "打包的套件與字型可重新散布",
+          "on_fail": "pause",
+          "max_fix": 3,
+          "criteria": "本專案為 MIT。檢查這次新增或打包進 `dist/` 的所有東西：\n- npm 依賴的授權與 MIT 相容（不可是 GPL／AGPL 或授權不明）。\n- **每個打包進去的 figlet 字型**：讀字型檔的標頭註解，確認允許重新散布；授權不明或禁止散布的字型不能打包，改選其他字型並告知使用者。\n- 第三方授權聲明有保留（例如 `THIRD_PARTY_LICENSES` 或 README）。\n沒有新增依賴或字型的任務，確認沒有變動即可通過。",
+          "requires": [],
+          "status": "pass",
+          "note": "符合。本任務未新增依賴或字型：package.json/package-lock.json/src/fonts.js/scripts 均無變動，新增檔僅 src/strokes.js、src/letters.js 與測試。既有 figlet@1.12.0 為 MIT；7 種字型 .flf 標頭皆為 Glenn Chappell 官方 FIGlet 發行版字型（允許修改並註記），THIRD_PARTY_LICENSES.md 保留 figlet MIT 與 FIGlet 字型聲明。",
+          "fails": 0
+        }
+      ]
+    }
+  ],
+  "resolution": {
+    "by": "norn",
+    "at": "2026-11-08T17:43:04+08:00",
+    "gate_id": "ascii-scribe-he9"
+  },
   "waivers": [],
   "audit": [],
   "created": "2026-11-08T02:31:21+08:00",
-  "updated": "2026-11-08T02:31:21+08:00"
+  "updated": "2026-11-08T17:43:04+08:00",
+  "disabled_checkpoints": []
 }

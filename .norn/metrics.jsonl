@@ -57,3 +57,15 @@
 {"at": "2026-11-08T15:52:58+08:00", "kind": "check", "source": "cp:strokes-not-faked", "task": "ascii-scribe-ug8.1", "status": "pass"}
 {"at": "2026-11-08T15:52:58+08:00", "kind": "check", "source": "cp:license-ok", "task": "ascii-scribe-ug8.1", "status": "pass"}
 {"at": "2026-11-08T15:52:58+08:00", "kind": "check", "source": "verify:type:dev", "task": "ascii-scribe-ug8.1", "status": "pass"}
+{"at": "2026-11-08T17:38:06+08:00", "kind": "check", "source": "cp:tests-pass", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:38:06+08:00", "kind": "check", "source": "cp:build-ok", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:38:06+08:00", "kind": "check", "source": "verify:type:dev", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:41:51+08:00", "kind": "check", "source": "cp:tests-pass", "task": "ascii-scribe-ug8.2", "status": "fail"}
+{"at": "2026-11-08T17:41:51+08:00", "kind": "check", "source": "cp:build-ok", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:41:51+08:00", "kind": "check", "source": "cp:strokes-not-faked", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:41:51+08:00", "kind": "check", "source": "verify:type:dev", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:43:03+08:00", "kind": "check", "source": "cp:tests-pass", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:43:03+08:00", "kind": "check", "source": "cp:build-ok", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:43:03+08:00", "kind": "check", "source": "cp:strokes-not-faked", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:43:03+08:00", "kind": "check", "source": "cp:license-ok", "task": "ascii-scribe-ug8.2", "status": "pass"}
+{"at": "2026-11-08T17:43:03+08:00", "kind": "check", "source": "verify:type:dev", "task": "ascii-scribe-ug8.2", "status": "pass"}

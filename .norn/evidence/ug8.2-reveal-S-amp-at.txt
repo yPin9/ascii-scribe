@@ -1,0 +1,33 @@
+== "S&@" Standard: 10 strokes (letter = stroke, a first)
+  ____   ___     ____       bbbb   ccc     ffff  
+ / ___| ( _ )   / __ \     a aaab c d c   f ii f 
+ \___ \ / _ \/\/ / _` |    aaaa a c e cccf i ji f
+  ___) | (_>  < | (_| |     aaaa a eee  c h jjj f
+ |____/ \___/\/\ \__,_|    aaaaaa cccccccg hhhhff
+                \____/                    gggggg 
+stroke paths: a:/\___)___|____/|\___  b:____|  c:/(___)\/\</\/___\  d:_  e:(_>_  f://____\|||_
+== "S&@" Big: 9 strokes (letter = stroke, a first)
+   _____                      aaaaa                
+  / ____| ___     ____       a aaaaa bbb     eeee  
+ | (___  ( _ )   / __ \     a aaaa  b c b   e hh e 
+  \___ \ / _ \/\/ / _` |     aaaa a b d bbbe h ih e
+  ____) | (_>  < | (_| |     aaaaa a ddd  b g iii e
+ |_____/ \___/\/\ \__,_|    aaaaaaa bbbbbbbf ggggee
+                 \____/                     ffffff 
+                                                   
+stroke paths: a:|\___)____|_____/|\___(____|_____/  b:/(___)\/\</\/___\  c:_  d:(_>_  e://____\|||_  f:\\____/
+== "S&@" Slant: 13 strokes (letter = stroke, a first)
+   _____ ___     ______       aaaaa eee     iiiiii 
+  / ___/( _ )   / ____ \     a aaaae h e   i kkkk i
+  \__ \/ __ \/|/ / __ `/     aaa cc ff eeei k ll ki
+ ___/ / /_/  </ / /_/ /     aaaa d fff  ee j lll i 
+/____/\____/\/\ \__,_/     abbbbbbbggggggg jjjjmi  
+               \____/                     iiiiii   
+stroke paths: a:/___/__\/_____/___  b:____/\_  c:\/  d:/  e:(___)\/|</  f:/__/_
+== "Hi!" Small: 8 strokes (letter = stroke, a first)
+  _  _ _ _      b  c d g 
+ | || (_) |    a bc add g
+ | __ | |_|    a aa a fhg
+ |_||_|_(_)    aaaaaaefgg
+                         
+stroke paths: a:|||_|__|_||(  b:_|  c:|_  d:_)_  e:_  f:|(

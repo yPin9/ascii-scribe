@@ -106,7 +106,8 @@ test('chopped scans in every direction get perfect adjacency and frame, but scan
         const ctx = `seed=${seed} ordering=${o.name} font=${font} text=${JSON.stringify(s)}`;
         assert.equal(finalFrame(sArt, strokes).matches, true, ctx);
         assert.equal(m.adjacency, 1, ctx);
-        if (m.cells > 1) assert.equal(m.scanSimilarity, 1, ctx);
+        // scanSimilarity is defined as 0 when no stroke has a pair (e.g. Script ":" = two isolated cells).
+        if (m.pairs > 0) assert.equal(m.scanSimilarity, 1, ctx);
       }
     }
   }
